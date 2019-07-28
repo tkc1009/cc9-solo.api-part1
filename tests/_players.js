@@ -11,22 +11,112 @@ describe("AI Pokemon Battle API Server", () => {
     request = chai.request(app);
   });
   describe("Test For Players", () => {
+    describe("set up", () => {
+      it("set up 2 Player 1/2", async () => {
+        const res = await request.post("/graphql").send({
+          query: `mutation {
+            insertPlayer(player: { playerName: "red" }) {
+              playerId
+              playerName
+            }
+          }`,
+        });
+        temp.playerId1 = res.body.data.insertPlayer.playerId;
+        const expected = {
+          data: {
+            insertPlayer: {
+              playerId: temp.playerId1,
+              playerName: "red",
+            },
+          },
+        };
+        JSON.stringify(res.body).should.equal(JSON.stringify(expected));
+      });
+      it("set up 2 Player 2/2", async () => {
+        const res = await request.post("/graphql").send({
+          query: `mutation {
+            insertPlayer(player: { playerName: "green" }) {
+              playerId
+              playerName
+            }
+          }`,
+        });
+        temp.playerId2 = res.body.data.insertPlayer.playerId;
+        const expected = {
+          data: {
+            insertPlayer: {
+              playerId: temp.playerId2,
+              playerName: "green",
+            },
+          },
+        };
+        JSON.stringify(res.body).should.equal(JSON.stringify(expected));
+      });
+    });
+    describe("selectPlayer", () => {
+      it("selectPlayer should return all Player", async () => {
+        const res = await request.post("/graphql").send({
+          query: `query {
+            selectPlayer {
+              playerId
+              playerName
+            }
+          }`,
+        });
+        const expected = {
+          data: {
+            selectPlayer: [
+              {
+                playerId: temp.playerId1,
+                playerName: "red",
+              },
+              {
+                playerId: temp.playerId2,
+                playerName: "green",
+              },
+            ],
+          },
+        };
+        JSON.stringify(res.body).should.equal(JSON.stringify(expected));
+      });
+      it("selectPlayer should return specific Player", async () => {
+        const res = await request.post("/graphql").send({
+          query: `query {
+            selectPlayer(player: { playerId: ${temp.playerId1} }) {
+              playerId
+              playerName
+            }
+          }`,
+        });
+        const expected = {
+          data: {
+            selectPlayer: [
+              {
+                playerId: temp.playerId1,
+                playerName: "red",
+              },
+            ],
+          },
+        };
+        JSON.stringify(res.body).should.equal(JSON.stringify(expected));
+      });
+    });
     describe("insertPlayer", () => {
       it("insertPlayer should return name of player", async () => {
         const res = await request.post("/graphql").send({
           query: `mutation {
-          insertPlayer(player: { name: "red" }) {
-            id
-            name
-          }
-        }`,
+            insertPlayer(player: { playerName: "blue" }) {
+              playerId
+              playerName
+            }
+          }`,
         });
-        temp.id = res.body.data.insertPlayer.id;
+        temp.playerId = res.body.data.insertPlayer.playerId;
         const expected = {
           data: {
             insertPlayer: {
-              id: temp.id,
-              name: "red",
+              playerId: temp.playerId,
+              playerName: "blue",
             },
           },
         };
@@ -37,17 +127,17 @@ describe("AI Pokemon Battle API Server", () => {
       it("updatePlayer should return id and name of player", async () => {
         const res = await request.post("/graphql").send({
           query: `mutation {
-          updatePlayer(player: { id: ${temp.id}, name: "green"} ) {
-            id
-            name
-          }
-        }`,
+            updatePlayer(player: { playerId: ${temp.playerId}, playerName: "yellow"} ) {
+              playerId
+              playerName
+            }
+          }`,
         });
         const expected = {
           data: {
             updatePlayer: {
-              id: temp.id,
-              name: "green",
+              playerId: temp.playerId,
+              playerName: "yellow",
             },
           },
         };
@@ -58,8 +148,8 @@ describe("AI Pokemon Battle API Server", () => {
       it("deletePlayer should return true", async () => {
         const res = await request.post("/graphql").send({
           query: `mutation {
-          deletePlayer(player: { id: ${temp.id}} )
-        }`,
+            deletePlayer(player: { playerId: ${temp.playerId}} )
+          }`,
         });
         const expected = {
           data: {

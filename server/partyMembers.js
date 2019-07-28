@@ -9,6 +9,27 @@ const validateNull = (object) => object !== null;
 
 const validateId = (id) => typeof id === "number";
 
+module.exports.selectPartyMember = ({ partyMember }, knex) => {
+  return knex("partymembers")
+    .select(
+      "player_id as playerId",
+      "party_member_id as partyMemberId",
+      "pokemon_id as pokemonId",
+      "pokemon_name as pokemonName"
+    )
+    .where(partyMember ? { player_id: partyMember.playerId } : true)
+    .then((partyMembers) =>
+      partyMembers.map((partyMember) => new PartyMember(partyMember))
+    )
+    .catch((err) => {
+      // sanitize known errors
+      // TODO
+
+      // throw unknown errors
+      return Promise.reject(err);
+    });
+};
+
 module.exports.insertPartyMember = ({ partyMember }, knex, pokeapi) => {
   if (!validateNull(partyMember))
     return Promise.reject(new Error("Request data must be provided"));

@@ -5,7 +5,7 @@
   "author": "Krista Moroder for Code Chrysalis",
   "private": true,
   "scripts": {
-    "test": "node tests/initialize.js && mocha tests/_*.js && yarn lint",
+    "test": "node tests/initialize.js && mocha tests/_partyMembers.js && yarn lint",
     "lint": "eslint --fix --ext .js .",
     "dev": "nodemon server/index.js",
     "start": "node server/index.js",
