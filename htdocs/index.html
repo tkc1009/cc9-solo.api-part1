@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <h1>AI Pokemon Battle API</h1>
+    <p>
+      This was created during my time as a student at Code Chrysalis
+    </p>
+    <h2>Beginning</h2>
+    <p>
+      Pokemon Battle is 6 on 6.<br />
+      Each player can have 6 pokemons.<br />
+      Each pokemon can have 4 moves.<br />
+    </p>
+    <h2>Purpose</h2>
+    <p>
+      You can find out the best action for move or change when you battle with
+      rival.
+    </p>
+    <h2>Usage</h2>
+    <a href="http://localhost:4000/graphql">AI Pokemon Battle API</a><br />
+    <br />
+    <b><i>New User:</i></b
+    ><br />
+    mutation { insertPlayer(player: { playerName: "blue" }) { playerId
+    playerName } }<br />
+    <b><i>Select User: </i></b><br />
+    query { selectPlayer(player: { playerId: ${Your Id} }) { playerId playerName
+    } }<br />
+    <b><i>Update User:</i></b
+    ><br />
+    mutation { updatePlayer(player: { playerId: ${Your Id}, playerName: ${Your
+    New Name}} ) { playerId playerName } }<br />
+    <b><i>Delete User:</i></b
+    ><br />
+    mutation { deletePlayer(player: { playerId: ${Your Id}} ) }<br />
+    <b><i>New Your Pokemon:</i></b
+    ><br />
+    mutation { insertPartyMember(partyMember: { playerId: ${Your ID}, pokemonId:
+    ${Your Pokemon ID or Name} }) { playerId partyMemberId pokemonId pokemonName
+    } }<br />
+    <b><i>Select Your Pokemon:</i></b
+    ><br />
+    query { selectPartyMember(partyMember: { playerId: ${Your Id} }) { playerId
+    partyMemberId pokemonId pokemonName } }<br />
+    <b><i>Update Your Pokemon:</i></b
+    ><br />
+    mutation { updatePartyMember(partyMember: { playerId: ${Your Id},
+    partyMemberId: ${Your Party Member Id}, pokemonName: ${Your Pokemon ID or
+    Name} }) { playerId partyMemberId pokemonId pokemonName } }<br />
+    <b><i>Delete User:</i></b
+    ><br />
+    mutation { deletePartyMember(partyMember: { playerId: ${Your Id},
+    partyMemberId: ${Your Party Member Id} }) }<br />
+    <h2>Resource</h2>
+    <a href="https://github.com/tkc1009/cc9-solo.api-part1"
+      >GitHub (This repository)</a
+    ><br />
+    <a href="https://pokeapi.co/">PokeAPI</a><br />
+  </body>
+</html>

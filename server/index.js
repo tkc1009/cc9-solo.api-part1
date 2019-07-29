@@ -75,6 +75,10 @@ app.use(
     graphiql: true,
   })
 );
+
+app.use(express.static("htdocs"));
+app.get("/", (req, res) => res.sendFile("./index.html"));
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Running a GraphQL API server at localhost:${PORT}/graphql`);

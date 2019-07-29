@@ -156,7 +156,6 @@ describe("AI Pokemon Battle API Server", () => {
             ],
           },
         };
-        console.log();
         JSON.stringify(res.body).should.equal(JSON.stringify(expected));
       });
     });
